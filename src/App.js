@@ -45,6 +45,9 @@ class App extends Component {
                  data={person} />)}
            </tbody>
         </table>
+
+        {/*This is a prop sent from RactDOM*/}
+        <p>{this.props.prop}</p>
      </div>
     );
   }
