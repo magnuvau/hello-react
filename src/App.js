@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import logo from './logo.svg';
 import './App.css';
 
@@ -13,9 +14,26 @@ class App extends Component {
                "name":"Foo",
                "age":"20"
             }
-         ]
+         ],
+         buttonData: []
       }
+      this.setStateHandler = this.setStateHandler.bind(this);
+      this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+      this.findDomNodeHandler = this.findDomNodeHandler.bind(this);
    }
+   setStateHandler() {
+       var item = "setState..."
+       var myArray = this.state.buttonData.slice();
+       myArray.push(item);
+       this.setState({buttonData: myArray})
+   }
+   forceUpdateHandler() {
+       this.forceUpdate();
+   }
+      findDomNodeHandler() {
+         var myDiv = document.getElementById('myDiv');
+         ReactDOM.findDOMNode(myDiv).style.color = 'green';
+      }
   render() {
 
     var i = 1;
@@ -48,6 +66,18 @@ class App extends Component {
 
         {/*This is a prop sent from RactDOM*/}
         <p>{this.props.prop}</p>
+
+        {/*Button to update state of component*/}
+        <p>State Array: {this.state.buttonData}</p>
+        <button onClick={this.setStateHandler}>Update state!</button>
+
+        {/*Force update state of component*/}
+        <p>Random number: {Math.random()}</p>
+        <button onClick={this.forceUpdateHandler}>Force state!</button>
+
+        {/*Force update state of component*/}
+        <p id="myDiv">Node</p>
+        <button onClick={this.findDomNodeHandler}>Find DOM Node</button>
      </div>
     );
   }
