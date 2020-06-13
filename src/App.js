@@ -15,11 +15,13 @@ class App extends Component {
                "age":"20"
             }
          ],
-         buttonData: []
+         buttonData: [],
+         numberData: 0
       }
       this.setStateHandler = this.setStateHandler.bind(this);
       this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
       this.findDomNodeHandler = this.findDomNodeHandler.bind(this);
+      this.setNewNumber = this.setNewNumber.bind(this)
    }
    setStateHandler() {
        var item = "setState..."
@@ -30,10 +32,13 @@ class App extends Component {
    forceUpdateHandler() {
        this.forceUpdate();
    }
-      findDomNodeHandler() {
-         var myDiv = document.getElementById('myDiv');
-         ReactDOM.findDOMNode(myDiv).style.color = 'green';
-      }
+   findDomNodeHandler() {
+      var myDiv = document.getElementById('myDiv');
+      ReactDOM.findDOMNode(myDiv).style.color = 'green';
+   }
+   setNewNumber() {
+      this.setState({numberData: this.state.numberData + 1})
+   }
   render() {
 
     var i = 1;
@@ -45,39 +50,43 @@ class App extends Component {
 
     return (
      <div>
-        <h1>Header</h1>
-        <h2 style={myStyle}>Stylish header</h2>
-        {/*Comment: This is JSX, not HTML!*/}
-        <p>A paragraph</p>
-        <p>Javascript expression: {i} + {i} = {i + i}</p>
-        <p>Conditional expression: {i} === {i} {i === 1 ? 'True' : 'False'}</p>
+         <h1>Header</h1>
+         <h2 style={myStyle}>Stylish header</h2>
+         {/*Comment: This is JSX, not HTML!*/}
+         <p>A paragraph</p>
+         <p>Javascript expression: {i} + {i} = {i + i}</p>
+         <p>Conditional expression: {i} === {i} {i === 1 ? 'True' : 'False'}</p>
 
-        {/*Insert other components*/}
-        <StatelessComponent1/>
-        <StatelessComponent2/>
+         {/*Insert other components*/}
+         <StatelessComponent1/>
+         <StatelessComponent2/>
 
-        {/*Create table of dats from this stateful component App*/}
-        <table>
-           <tbody>
-              {this.state.data.map((person, i)=><TableRow key={i}
-                 data={person} />)}
-           </tbody>
-        </table>
+         {/*Create table of dats from this stateful component App*/}
+         <table>
+            <tbody>
+               {this.state.data.map((person, i)=><TableRow key={i}
+                  data={person} />)}
+            </tbody>
+         </table>
 
-        {/*This is a prop sent from RactDOM*/}
-        <p>{this.props.prop}</p>
+         {/*This is a prop sent from RactDOM*/}
+         <p>{this.props.prop}</p>
 
-        {/*Button to update state of component*/}
-        <p>State Array: {this.state.buttonData}</p>
-        <button onClick={this.setStateHandler}>Update state!</button>
+         {/*Button to update state of component*/}
+         <p>State Array: {this.state.buttonData}</p>
+         <button onClick={this.setStateHandler}>Update state!</button>
 
-        {/*Force update state of component*/}
-        <p>Random number: {Math.random()}</p>
-        <button onClick={this.forceUpdateHandler}>Force state!</button>
+         {/*Force update state of component*/}
+         <p>Random number: {Math.random()}</p>
+         <button onClick={this.forceUpdateHandler}>Force state!</button>
 
-        {/*Force update state of component*/}
-        <p id="myDiv">Node</p>
-        <button onClick={this.findDomNodeHandler}>Find DOM Node</button>
+         {/*Force update state of component*/}
+         <p id="myDiv">Node</p>
+         <button onClick={this.findDomNodeHandler}>Find DOM Node</button>
+
+         {/*Lifecycle console logging on increment*/}
+         <Content number={this.state.numberData}></Content>
+         <button onClick={this.setNewNumber}>Increment</button>
      </div>
     );
   }
@@ -111,6 +120,37 @@ class TableRow extends React.Component {
             <td>{this.props.data.name}</td>
             <td>{this.props.data.age}</td>
          </tr>
+      );
+   }
+}
+
+class Content extends React.Component {
+   componentWillMount() {
+      console.log('Mounting component...')
+   }
+   componentDidMount() {
+      console.log('Component mounted!')
+   }
+   componentWillReceiveProps(newProps) {    
+      console.log('Component receiving props...')
+   }
+   shouldComponentUpdate(newProps, newState) {
+      return true;
+   }
+   componentWillUpdate(nextProps, nextState) {
+      console.log('Component updating...');
+   }
+   componentDidUpdate(prevProps, prevState) {
+      console.log('Component updated!')
+   }
+   componentWillUnmount() {
+      console.log('Unmounting component')
+   }
+   render() {
+      return (
+         <div>
+            <h3>{this.props.number}</h3>
+         </div>
       );
    }
 }
