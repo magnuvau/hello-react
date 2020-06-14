@@ -16,12 +16,14 @@ class App extends Component {
             }
          ],
          buttonData: [],
-         numberData: 0
+         numberData: 0,
+         formData: '...'
       }
       this.setStateHandler = this.setStateHandler.bind(this);
       this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
       this.findDomNodeHandler = this.findDomNodeHandler.bind(this);
       this.setNewNumber = this.setNewNumber.bind(this)
+      this.updateFormDataState = this.updateFormDataState.bind(this);
    }
    setStateHandler() {
        var item = "setState..."
@@ -38,6 +40,9 @@ class App extends Component {
    }
    setNewNumber() {
       this.setState({numberData: this.state.numberData + 1})
+   }
+   updateFormDataState(e) {
+      this.setState({formData: e.target.value});
    }
   render() {
 
@@ -87,6 +92,15 @@ class App extends Component {
          {/*Lifecycle console logging on increment*/}
          <Content number={this.state.numberData}></Content>
          <button onClick={this.setNewNumber}>Increment</button>
+
+         {/*Form*/}
+         <p>Form data: {this.state.formData}</p>
+         <input type="text" value={this.state.formData} 
+               onChange={this.updateFormDataState} />
+
+         {/*Form from child component*/}
+         <FormContent formDataProp={this.state.formData} 
+               updateFormDataStateProp={this.updateFormDataState}></FormContent>
      </div>
     );
   }
@@ -150,6 +164,18 @@ class Content extends React.Component {
       return (
          <div>
             <h3>{this.props.number}</h3>
+         </div>
+      );
+   }
+}
+
+class FormContent extends React.Component {
+   render() {
+      return (
+         <div>
+            <p>Form data (child): {this.props.formDataProp}</p>
+            <input type="text" value={this.props.formDataProp} 
+               onChange={this.props.updateFormDataStateProp} />
          </div>
       );
    }
