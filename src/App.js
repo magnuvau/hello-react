@@ -24,6 +24,7 @@ class App extends Component {
       this.findDomNodeHandler = this.findDomNodeHandler.bind(this);
       this.setNewNumber = this.setNewNumber.bind(this)
       this.updateFormDataState = this.updateFormDataState.bind(this);
+      this.clearFormDataInput = this.clearFormDataInput.bind(this);
    }
    setStateHandler() {
        var item = "setState..."
@@ -43,6 +44,10 @@ class App extends Component {
    }
    updateFormDataState(e) {
       this.setState({formData: e.target.value});
+   }
+   clearFormDataInput() {
+      this.setState({formData: ''});
+      ReactDOM.findDOMNode(this.refs.formDataClear).focus();
    }
   render() {
 
@@ -101,6 +106,10 @@ class App extends Component {
          {/*Form from child component*/}
          <FormContent formDataProp={this.state.formData} 
                updateFormDataStateProp={this.updateFormDataState}></FormContent>
+
+         {/*Clear form with ref*/}
+         <p></p>
+         <button onClick={this.clearFormDataInput}>Clear</button>
      </div>
     );
   }
