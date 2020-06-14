@@ -15,6 +15,21 @@ class App extends Component {
                "age":"20"
             }
          ],
+         componentData:
+         [
+            {
+               component: 'Uno',
+               id: 1
+            },
+            {
+               component: 'Dos',
+               id: 2
+            },
+            {
+               component: 'Tres',
+               id: 3
+            }
+         ],
          buttonData: [],
          numberData: 0,
          formData: '...'
@@ -110,6 +125,12 @@ class App extends Component {
          {/*Clear form with ref*/}
          <p></p>
          <button onClick={this.clearFormDataInput}>Clear</button>
+
+         {/*Assign keys to dynamically created components*/}
+         <div>
+            {this.state.componentData.map((dynamicComponent, i) => <DynamicComponent 
+               key={i} componentDataProp={dynamicComponent}/>)}
+         </div>
      </div>
     );
   }
@@ -185,6 +206,17 @@ class FormContent extends React.Component {
             <p>Form data (child): {this.props.formDataProp}</p>
             <input type="text" value={this.props.formDataProp} 
                onChange={this.props.updateFormDataStateProp} />
+         </div>
+      );
+   }
+}
+
+class DynamicComponent extends React.Component {
+   render() {
+      return (
+         <div>
+            <div>{this.props.componentDataProp.component}</div>
+            <div>{this.props.componentDataProp.id}</div>
          </div>
       );
    }
